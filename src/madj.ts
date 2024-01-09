@@ -11,6 +11,19 @@ export class Madj {
     this.xScore = 0;
     this.oScore = 0;
     this.nombreDePionsPourVictoire = nombreDePionsPourVictoire;
+    this.initializePredefinedPositions();
+  }
+
+  initializePredefinedPositions() {
+    const center = Math.floor(this.size / 2);
+
+    // Assurez-vous que la taille du plateau permet de placer les marques sans sortir du tableau
+    if (this.size > center +1) {
+      this.board[center][center] = 'X';
+      this.board[center - 1][center - 1] = 'X';
+      this.board[center - 1][center] = 'O';
+      this.board[center][center - 1] = 'O';
+    }
   }
 
   placeMark(row: number, col: number, mark: string): boolean {

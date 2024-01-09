@@ -1,8 +1,14 @@
 .board {
   display: grid;
-  grid-template-columns: repeat(var(--n, 5), 6rem);
-  place-items: center;
+  grid-template-columns: repeat(var(--size), 100px);
+  grid-template-rows: repeat(var(--size), 100px);
   justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.cell {
+  margin: 5px; /* Cela ajoutera un espacement de 5px autour de chaque cellule */
 }
 
 input[type="number"] {
@@ -20,6 +26,24 @@ input[type="number"] {
   font-weight: bold;
   border: none; /* Supprimer la bordure */
   outline: none; /* Supprimer la bordure de focus */
-  -webkit-appearance: none; /* Supprimer les styles par défaut de l'entrée */
   overflow: hidden;
+}
+
+input[type="number"] {
+  -webkit-appearance: none; /* Pour Chrome et Safari */
+  -moz-appearance: none; /* Pour Firefox */
+  appearance: none; /* Standard moderne */
+}
+
+/* Vous pouvez également appliquer des styles spécifiques pour désactiver l'apparence des flèches de l'input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]::-moz-inner-spin-button,
+input[type="number"]::-moz-outer-spin-button {
+  -moz-appearance: none;
+  margin: 0;
 }
