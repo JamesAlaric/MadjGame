@@ -41,25 +41,26 @@ body {
 }
 
 .modal-overlay {
-  position: fixed;
+  position: fixed; /* Positionnement par rapport à la fenêtre du navigateur */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000; /* Assurez-vous que l'overlay est au-dessus des autres éléments */
+  display: flex; /* Utilisation de Flexbox pour le centrage */
+  align-items: center; /* Centrage vertical */
+  justify-content: center; /* Centrage horizontal */
+  z-index: 1000; /* S'assurer que le modal est au-dessus des autres éléments */
 }
 
 .game-over-modal {
+  width: auto; /* La largeur peut être fixe ou auto en fonction du contenu */
+  max-width: 90%; /* Vous pouvez définir une largeur maximale si nécessaire */
   background: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  position: relative;
 }
 
 .close-modal {
