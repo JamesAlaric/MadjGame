@@ -32,7 +32,8 @@ export class Madj {
       row >= this.size ||
       col < 0 ||
       col >= this.size ||
-      this.board[row][col] !== ""
+      this.board[row][col] !== "" ||
+      !this.isAdjacentToMark(row, col)
     ) {
       return false; // Mouvement invalide
     }
@@ -41,6 +42,27 @@ export class Madj {
     this.updateScores();
     return true;
   }
+  
+  isAdjacentToMark(row: number, col: number): boolean {
+    const directions = [
+      [-1, -1], [-1, 0], [-1, 1],
+      [0, -1], /* [0, 0], */ [0, 1],
+      [1, -1], [1, 0], [1, 1]
+    ];
+    for (const [dr, dc] of directions) {
+      const newRow = row + dr;
+      const newCol = col + dc;
+      if (
+        newRow >= 0 && newRow < this.size &&
+        newCol >= 0 && newCol < this.size &&
+        this.board[newRow][newCol] !== ""
+      ) {
+        return true; // Il y a un pion adjacent
+      }
+    }
+    return false; // Aucun pion adjacent trouvé
+  }
+  
 
   updateScores() {
     // Mettre à jour les scores en vérifiant les alignements dans les lignes, colonnes et diagonales

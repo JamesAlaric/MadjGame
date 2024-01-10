@@ -7,3 +7,19 @@ body {
   background-color: #161720;
   font-family: "Fredoka", sans-serif;
 }
+.error-message {
+  position: fixed; /* ou 'absolute' si vous voulez le positionner par rapport à un conteneur */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  background-color: #ff3b3bd3; /* Couleur de fond rouge pour l'erreur */
+  color: white; /* Texte blanc pour le contraste */
+  border-radius: 8px; /* Bords arrondis pour l'esthétique */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Ombre portée pour un effet "flottant" */
+  z-index: 1000; /* S'assure que le message est au-dessus des autres éléments */
+  max-width: 80%; /* Limite la largeur maximale du message */
+  text-align: center; /* Centre le texte à l'intérieur du message */
+  font-size: 1rem; /* Taille de police standard */
+  box-sizing: border-box; /* S'assure que padding ne déborde pas de la largeur max */
+}
