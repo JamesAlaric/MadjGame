@@ -4,7 +4,7 @@ import ResetButton from "./components/resetButton";
 import ScoreBoard from "./components/scoreBoard";
 import { Madj } from "./madj"; // Assurez-vous que le chemin d'import est correct
 import "./App.css";
-import goldTrophy from './assets/trophy.png';
+import goldTrophy from './assets/trophy .png';
 import DrawIcon from './assets/hired.png'
 
 
