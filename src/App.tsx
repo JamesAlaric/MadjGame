@@ -89,13 +89,7 @@ const App: React.FC = () => {
           xPlaying={xPlaying}
         />
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <Board
-          size={size}
-          onSizeChange={handleSizeChange}
-          board={madj.board}
-          onBoxClick={handleBoxClick}
-        />
-         {isModalVisible && (
+        {isModalVisible && (
           <div className="modal-overlay">
             <div className="game-over-modal">
               <button className="close-modal" onClick={closeModal}>
@@ -111,6 +105,13 @@ const App: React.FC = () => {
           </div>
         )}
 
+        <Board
+          size={size}
+          onSizeChange={handleSizeChange}
+          board={madj.board}
+          onBoxClick={handleBoxClick}
+        />
+        
         <ResetButton resetBoard={resetGame} />
       </div>
     </>
