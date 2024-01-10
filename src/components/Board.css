@@ -2,8 +2,8 @@
   display: grid;
   grid-template-columns: repeat(var(--size), 100px);
   grid-template-rows: repeat(var(--size), 100px);
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
   gap: 5px;
 }
 

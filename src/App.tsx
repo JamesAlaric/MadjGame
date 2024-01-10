@@ -83,24 +83,26 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      <ScoreBoard
-        scores={{ xScore: madj.xScore, oScore: madj.oScore }}
-        xPlaying={xPlaying}
-      />
-      {/* <Board size={size} board={madj.board} onBoxClick={handleBoxClick} /> */}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <Board
-        size={size}
-        onSizeChange={handleSizeChange}
-        board={madj.board}
-        onBoxClick={handleBoxClick}
-      />
-      {gameOverMessage && (
-        <div className="game-over-message">{gameOverMessage}</div>
-      )}
-      <ResetButton resetBoard={resetGame} />
-    </>
+   <>
+  <div className="game-container">
+    <ScoreBoard
+      scores={{ xScore: madj.xScore, oScore: madj.oScore }}
+      xPlaying={xPlaying}
+    />
+    {errorMessage && <div className="error-message">{errorMessage}</div>}
+    <Board
+      size={size}
+      onSizeChange={handleSizeChange}
+      board={madj.board}
+      onBoxClick={handleBoxClick}
+    />
+    {gameOverMessage && (
+      <div className="game-over-message">{gameOverMessage}</div>
+    )}
+    <ResetButton resetBoard={resetGame} />
+  </div>
+</>
+
   );
 };
 

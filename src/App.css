@@ -6,7 +6,23 @@ body {
   margin: 0;
   background-color: #161720;
   font-family: "Fredoka", sans-serif;
+  height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
+
+#root, .game-container {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .error-message {
   position: fixed; /* ou 'absolute' si vous voulez le positionner par rapport à un conteneur */
   top: 50%;
