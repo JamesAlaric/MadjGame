@@ -65,6 +65,10 @@ export class Madj {
   
 
   updateScores() {
+    // Réinitialiser les scores avant de recompter
+    this.xScore = 0;
+    this.oScore = 0;
+  
     // Mettre à jour les scores en vérifiant les alignements dans les lignes, colonnes et diagonales
     for (let i = 0; i < this.size; i++) {
       if (this.alignementConsecutif("x", [i, 0], [0, 1])) {
@@ -93,6 +97,7 @@ export class Madj {
       this.oScore++; // Alignement consécutif de ronds dans la diagonale secondaire
     }
   }
+  
 
   isGameOver(): boolean {
     if (this.isFull() && this.xScore === this.oScore) {
