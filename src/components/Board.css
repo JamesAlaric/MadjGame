@@ -6,10 +6,14 @@
   align-items: center; */
   gap: 5px;
   margin: 5px;
+  overflow-x: auto;
+  min-width: fit-content;
 }
+
 
 .cell {
   margin: 5px; /* Cela ajoutera un espacement de 5px autour de chaque cellule */
+  min-width: 30px;
 }
 
 input[type="number"] {

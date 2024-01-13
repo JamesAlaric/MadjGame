@@ -1,3 +1,4 @@
+
 export class Madj {
   board: string[][];
   size: number;
@@ -18,11 +19,11 @@ export class Madj {
     const center = Math.floor(this.size / 2);
 
     // Assurez-vous que la taille du plateau permet de placer les marques sans sortir du tableau
-    if (this.size > center +1) {
-      this.board[center][center] = 'X';
-      this.board[center - 1][center - 1] = 'X';
-      this.board[center - 1][center] = 'O';
-      this.board[center][center - 1] = 'O';
+    if (this.size > center + 1) {
+      this.board[center][center] = "X";
+      this.board[center - 1][center - 1] = "X";
+      this.board[center - 1][center] = "O";
+      this.board[center][center - 1] = "O";
     }
   }
 
@@ -42,19 +43,26 @@ export class Madj {
     this.updateScores();
     return true;
   }
-  
+
   isAdjacentToMark(row: number, col: number): boolean {
     const directions = [
-      [-1, -1], [-1, 0], [-1, 1],
-      [0, -1], /* [0, 0], */ [0, 1],
-      [1, -1], [1, 0], [1, 1]
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+      [0, -1],
+      /* [0, 0], */ [0, 1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
     ];
     for (const [dr, dc] of directions) {
       const newRow = row + dr;
       const newCol = col + dc;
       if (
-        newRow >= 0 && newRow < this.size &&
-        newCol >= 0 && newCol < this.size &&
+        newRow >= 0 &&
+        newRow < this.size &&
+        newCol >= 0 &&
+        newCol < this.size &&
         this.board[newRow][newCol] !== ""
       ) {
         return true; // Il y a un pion adjacent
@@ -62,51 +70,71 @@ export class Madj {
     }
     return false; // Aucun pion adjacent trouvé
   }
-  
+
+  resetScores() {
+    this.xScore = 0;
+    this.oScore = 0;
+  }
 
   updateScores() {
     // Réinitialiser les scores avant de recompter
     this.xScore = 0;
     this.oScore = 0;
-  
+
     // Mettre à jour les scores en vérifiant les alignements dans les lignes, colonnes et diagonales
     for (let i = 0; i < this.size; i++) {
-      if (this.alignementConsecutif("x", [i, 0], [0, 1])) {
-        this.xScore++; // Alignement consécutif de croix dans une ligne
-      }
-      if (this.alignementConsecutif("o", [i, 0], [0, 1])) {
-        this.oScore++; // Alignement consécutif de ronds dans une ligne
-      }
-      if (this.alignementConsecutif("x", [0, i], [1, 0])) {
-        this.xScore++; // Alignement consécutif de croix dans une colonne
-      }
-      if (this.alignementConsecutif("o", [0, i], [1, 0])) {
-        this.oScore++; // Alignement consécutif de ronds dans une colonne
-      }
+      this.updateScoreForPlayer("X", i, 0, 0, 1);
+      this.updateScoreForPlayer("O", i, 0, 0, 1);
+      this.updateScoreForPlayer("X", 0, i, 1, 0);
+      this.updateScoreForPlayer("O", 0, i, 1, 0);
     }
-    if (this.alignementConsecutif("x", [0, 0], [1, 1])) {
-      this.xScore++; // Alignement consécutif de croix dans la diagonale principale
-    }
-    if (this.alignementConsecutif("o", [0, 0], [1, 1])) {
-      this.oScore++; // Alignement consécutif de ronds dans la diagonale principale
-    }
-    if (this.alignementConsecutif("x", [0, this.size - 1], [1, -1])) {
-      this.xScore++; // Alignement consécutif de croix dans la diagonale secondaire
-    }
-    if (this.alignementConsecutif("o", [0, this.size - 1], [1, -1])) {
-      this.oScore++; // Alignement consécutif de ronds dans la diagonale secondaire
-    }
+    this.updateScoreForPlayer("X", 0, 0, 1, 1);
+    this.updateScoreForPlayer("O", 0, 0, 1, 1);
+    this.updateScoreForPlayer("X", 0, this.size - 1, 1, -1);
+    this.updateScoreForPlayer("O", 0, this.size - 1, 1, -1);
+
+    console.log(`Scores mis à jour : X - ${this.xScore}, O - ${this.oScore}`);
   }
-  
+
+  updateScoreForPlayer(player: string, startRow: number, startCol: number, rowIncrement: number, colIncrement: number) {
+    let [x, y] = [startRow, startCol];
+    let currentStreak = 0;
+
+    while (x >= 0 && x < this.size && y >= 0 && y < this.size) {
+        if (this.board[x][y] === player) {
+            currentStreak++;
+        } else {
+            currentStreak = 0; // Reset the counter if the sequence is interrupted
+        }
+        
+        // Update the score only if the current streak is longer
+        this.updatePlayerScore(player, currentStreak);
+
+        x += rowIncrement;
+        y += colIncrement;
+    }
+}
+
+private updatePlayerScore(player: string, currentStreak: number) {
+    if (player.toLowerCase() === 'x') {
+        this.xScore = Math.max(this.xScore, currentStreak);
+    } else if (player.toLowerCase() === 'o') {
+        this.oScore = Math.max(this.oScore, currentStreak);
+    }
+}
+
 
   isGameOver(): boolean {
-    if (this.isFull() && this.xScore === this.oScore) {
+    // Vérifier si le plateau est plein
+    if (this.isFull()) {
       return true; // Match nul
     }
+
     // Vérifier d'autres conditions de fin de partie (victoire par alignement, etc.)
-    if (this.detectionVictoire("x") || this.detectionVictoire("o")) {
+    if (this.detectionVictoire("X") || this.detectionVictoire("O")) {
       return true; // Victoire détectée
     }
+
     return false; // Le jeu n'est pas terminé
   }
 
@@ -145,20 +173,32 @@ export class Madj {
     let [x, y] = position;
     const [dx, dy] = direction;
     let compteur = 0;
+    let maxCompteur = 0; // Compteur maximum de pions alignés consécutivement
     while (x >= 0 && x < this.size && y >= 0 && y < this.size) {
+      console.log(
+        `Vérification de la position (${x},${y}) pour le joueur ${joueur}`
+      );
       if (this.board[x][y] === joueur) {
         compteur++;
-        if (compteur >= this.nombreDePionsPourVictoire) {
+        maxCompteur = Math.max(maxCompteur, compteur); // Mettre à jour le compteur maximum
+        if (maxCompteur >= this.nombreDePionsPourVictoire) {
+          console.log(`Alignement consécutif détecté pour ${joueur}`);
           return true; // Alignement consécutif détecté
         }
       } else {
-        compteur = 0;
+        compteur = 0; // Réinitialisation du compteur si la séquence est interrompue
       }
       x += dx;
       y += dy;
     }
     return false; // Aucun alignement consécutif détecté
   }
+
+  //   voici le methode qui va calculer les alignements consecutifs.
+
+  // les logs retournés montrent que le score retournés n'est pas le max des toutes les positions consecutives soit les max des compteurs pour chaque symbole à chaque mouvement. or c'est ce que je veux.
+
+  // voici les logs observés:
 
   diagonalePrincipale(): string[] {
     const diagonale = [];
@@ -177,14 +217,7 @@ export class Madj {
   }
 
   detectionMatchNul(): boolean {
-    for (const row of this.board) {
-      for (const cell of row) {
-        if (cell === "") {
-          return false; // Il reste au moins une case vide
-        }
-      }
-    }
-    return true; // Toutes les cases sont remplies
+    return this.isFull();
   }
 
   mouvementValide(joueur: string, position: [number, number]): boolean {

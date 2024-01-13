@@ -7,6 +7,7 @@ interface ScoreBoardProps {
 }
 
 const ScoreBoard: React.FC<ScoreBoardProps> = ({ scores, xPlaying }) => {
+
   const { xScore, oScore } = scores;
 
   return (

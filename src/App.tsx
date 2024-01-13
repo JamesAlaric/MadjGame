@@ -4,9 +4,8 @@ import ResetButton from "./components/resetButton";
 import ScoreBoard from "./components/scoreBoard";
 import { Madj } from "./madj"; // Assurez-vous que le chemin d'import est correct
 import "./App.css";
-import goldTrophy from './assets/trophy .png';
-import DrawIcon from './assets/hired.png'
-
+import goldTrophy from "../public/trophy.png";
+import DrawIcon from "../public/hired.png";
 
 const App: React.FC = () => {
   const [size, setSize] = useState<number>(0); // Taille initiale du plateau
@@ -15,9 +14,14 @@ const App: React.FC = () => {
   const [gameOverMessage, setGameOverMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [xScore, setXScore] = useState(0);
+  const [oScore, setOScore] = useState(0);
 
   useEffect(() => {
     setMadj(new Madj(size, size)); // Réinitialiser Madj lorsque la taille change
+    setXPlaying(Math.random() < 0.5);
+    setXScore(0);
+    setOScore(0);
   }, [size]);
 
   useEffect(() => {
@@ -38,45 +42,50 @@ const App: React.FC = () => {
     if (!madj.isGameOver()) {
       const currentPlayer = xPlaying ? "X" : "O";
       if (madj.placeMark(i, j, currentPlayer)) {
+        madj.updateScores(); // Mettez à jour les scores
+        setXScore(madj.xScore);
+        setOScore(madj.oScore);
+        console.log(`State scores: X - ${xScore}, O - ${oScore}`);
+        // Créez une copie superficielle de l'objet madj et mettez à jour l'état avec cette copie
         setMadj((prevMadj) => {
-          const newMadj = new Madj(
-            prevMadj.size,
-            prevMadj.nombreDePionsPourVictoire
+          const newMadj = Object.assign(
+            Object.create(Object.getPrototypeOf(prevMadj)),
+            prevMadj
           );
-          newMadj.board = prevMadj.board.map((row) => [...row]);
-          newMadj.xScore = prevMadj.xScore;
-          newMadj.oScore = prevMadj.oScore;
-          // Ici, vous pouvez traiter la logique de fin de jeu
-          if (newMadj.isGameOver()) {
-            const winner = newMadj.detectionVictoire("X")
-              ? "X"
-              : newMadj.detectionVictoire("O")
-              ? "O"
-              : null;
-            setGameOverMessage(
-              winner ? `Le gagnant est ${winner}.` : "Match nul."
-            );
-            setIsModalVisible(true); // Affiche le modal
-          }
-
+          newMadj.board = prevMadj.board.map((innerRow) => [...innerRow]);
+          newMadj.xScore = prevMadj.xScore; // Copiez le score de X
+          newMadj.oScore = prevMadj.oScore; // Copiez le score de O
           return newMadj;
         });
-        setXPlaying(!xPlaying);
-        setErrorMessage(""); // Efface le message d'erreur précédent
+        setXPlaying(!xPlaying); // Changez le joueur actif
       } else {
-        setErrorMessage("Mouvement invalide");
+        setErrorMessage("Coup non valide !");
       }
+    }
+
+    // Vérifiez ici si le jeu est terminé et mettez à jour le message de fin de jeu si nécessaire
+    if (madj.isGameOver()) {
+      const winner = madj.detectionVictoire("X")
+        ? "X"
+        : madj.detectionVictoire("O")
+        ? "O"
+        : null;
+      setGameOverMessage(winner ? `Le gagnant est ${winner}.` : "Match nul.");
+      setIsModalVisible(true);
     }
   };
 
   const closeModal = () => {
     setIsModalVisible(false);
     setGameOverMessage("");
-    resetGame();
+    //resetGame();
   };
 
   const resetGame = () => {
+    madj.resetScores(); // Réinitialisez les scores
     setMadj(new Madj(size, size));
+    setXScore(0); // Reset the score for X
+    setOScore(0); // Reset the score for O
     setXPlaying(true);
     setGameOverMessage("");
   };
@@ -84,10 +93,7 @@ const App: React.FC = () => {
   return (
     <>
       <div className="game-container">
-        <ScoreBoard
-          scores={{ xScore: madj.xScore, oScore: madj.oScore }}
-          xPlaying={xPlaying}
-        />
+        <ScoreBoard scores={{ xScore, oScore }} xPlaying={xPlaying} />
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {isModalVisible && (
           <div className="modal-overlay">
@@ -96,8 +102,12 @@ const App: React.FC = () => {
                 &times;
               </button>
               <img
-                src={gameOverMessage.includes("gagnant") ? goldTrophy : DrawIcon}
-                alt={gameOverMessage.includes("gagnant") ? 'Gagnant' : 'Match nul'}
+                src={
+                  gameOverMessage.includes("gagnant") ? goldTrophy : DrawIcon
+                }
+                alt={
+                  gameOverMessage.includes("gagnant") ? "Gagnant" : "Match nul"
+                }
                 className="game-over-image"
               />
               <div className="game-over-message">{gameOverMessage}</div>
@@ -111,7 +121,7 @@ const App: React.FC = () => {
           board={madj.board}
           onBoxClick={handleBoxClick}
         />
-        
+
         <ResetButton resetBoard={resetGame} />
       </div>
     </>
