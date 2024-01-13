@@ -2,12 +2,10 @@
   box-sizing: border-box;
 }
 
-#root,
-body {
+#root, body {
   margin: 0;
   background-color: #161720;
   font-family: "Fredoka", sans-serif;
-  height: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -20,16 +18,25 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 30px;
+  margin-top: 70px;
 }
 
 .left-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
 }
 
-
+.warning-message {
+  position: fixed;
+  top: 0;
+  width: 350px;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #d26464;
+  color: #000000;
+  z-index: 1000;
+}
 
 .right-section {
   flex-grow: 1;
@@ -39,20 +46,20 @@ body {
 }
 
 .error-message {
-  position: fixed; /* ou 'absolute' si vous voulez le positionner par rapport à un conteneur */
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 1rem;
-  background-color: #ff3b3bd3; /* Couleur de fond rouge pour l'erreur */
-  color: white; /* Texte blanc pour le contraste */
-  border-radius: 8px; /* Bords arrondis pour l'esthétique */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Ombre portée pour un effet "flottant" */
-  z-index: 1000; /* S'assure que le message est au-dessus des autres éléments */
-  max-width: 80%; /* Limite la largeur maximale du message */
-  text-align: center; /* Centre le texte à l'intérieur du message */
-  font-size: 1rem; /* Taille de police standard */
-  box-sizing: border-box; /* S'assure que padding ne déborde pas de la largeur max */
+  background-color: #ff3b3bd3;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 80%;
+  text-align: center;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .modal-overlay {
@@ -61,11 +68,11 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Assurez-vous que l'overlay est au-dessus des autres éléments */
+  z-index: 1000;
 }
 
 .game-over-modal {
@@ -92,47 +99,28 @@ body {
   margin-top: 20px;
 }
 
-/* Style pour l'image du gagnant ou du match nul */
 .game-over-modal img {
   max-width: 100%;
   height: auto;
 }
 
 .game-over-image {
-  width: 300px; /* ajustez ceci à la taille désirée */
-  height: auto; /* pour maintenir le ratio d'aspect */
+  width: 300px;
+  height: auto;
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
+  /* Styles spécifiques pour les écrans de petite taille (<600px) */
+  .warning-message {
+    top: 70px;
+    width: 80%;
+  }
+  
   .game-container {
-    flex-direction: column;
-    align-items: center;
+    margin-top: 10px;
   }
-
-  .score-board,
-  .board-size-input,
-  .reset-button {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* Ajoutez ces styles pour la mise en page sur les grands écrans (par exemple, les ordinateurs de bureau) */
-@media (min-width: 601px) {
-  .game-container {
-    flex-direction: row;
-    justify-content: space-between;
-    margin-left: 30px; /* Marge à gauche pour les grands écrans */
-  }
-
-  .score-board,
-  .board-size-input,
-  .reset-button {
+  
+  .left-section, .right-section {
     width: auto;
-    text-align: left;
-  }
-
-  .board {
-    flex-grow: 1;
   }
 }

@@ -15,6 +15,7 @@ const App: React.FC = () => {
   const [gameOverMessage, setGameOverMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWarningVisible, setIsWarningVisible] = useState(true);
   const [xScore, setXScore] = useState(0);
   const [oScore, setOScore] = useState(0);
 
@@ -82,6 +83,10 @@ const App: React.FC = () => {
     //resetGame();
   };
 
+  const closeMess = () => {
+    setIsWarningVisible(false);
+  };
+
   const resetGame = () => {
     madj.resetScores(); // Réinitialisez les scores
     setMadj(new Madj(size, size));
@@ -95,6 +100,18 @@ const App: React.FC = () => {
     <>
       <div className="game-container">
         <div className="left-section">
+          {isWarningVisible && (
+            <div className="warning-message">
+              <button className="close-modal" onClick={closeMess}>
+                &times;
+              </button>
+              <br />
+              Il est recommandé de mettre la version pour ordinateur si vous
+              êtes sur mobile <br />
+              Pour une meilleure expérience, n'excédez pas la taille 9 si vous
+              êtes sur mobile et la taille 13 sur PC !
+            </div>
+          )}
           <ScoreBoard scores={{ xScore, oScore }} xPlaying={xPlaying} />
           <Input
             value={size || ""}
