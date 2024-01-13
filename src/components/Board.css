@@ -2,53 +2,26 @@
   display: grid;
   grid-template-columns: repeat(var(--size), 100px);
   grid-template-rows: repeat(var(--size), 100px);
-  /* justify-content: center;
-  align-items: center; */
   gap: 5px;
   margin: 5px;
-  overflow-x: auto;
-  min-width: fit-content;
+  overflow: auto;
 }
+
 
 
 .cell {
-  margin: 5px; /* Cela ajoutera un espacement de 5px autour de chaque cellule */
-  min-width: 30px;
+  flex: 1;
+  min-width: 10px;
 }
 
-input[type="number"] {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 20rem;
-  height: 3rem;
-  font-size: 1rem;
-  background-color: white;
-  margin: 1rem auto;
-  box-shadow: 0px 0px 8px #888888;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  border: none; /* Supprimer la bordure */
-  outline: none; /* Supprimer la bordure de focus */
-  overflow: hidden;
+.board.small-cells .cell {
+  flex-basis: 50px;
 }
 
-input[type="number"] {
-  -webkit-appearance: none; /* Pour Chrome et Safari */
-  -moz-appearance: none; /* Pour Firefox */
-  appearance: none; /* Standard moderne */
+.board.medium-cells .cell {
+  flex-basis: 75px;
 }
 
-/* Vous pouvez également appliquer des styles spécifiques pour désactiver l'apparence des flèches de l'input number */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"]::-moz-inner-spin-button,
-input[type="number"]::-moz-outer-spin-button {
-  -moz-appearance: none;
-  margin: 0;
+.board.large-cells .cell {
+  flex-basis: 100px;
 }

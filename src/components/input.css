@@ -1,0 +1,36 @@
+input[type="number"] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 20rem;
+  height: 3rem;
+  font-size: 1rem;
+  background-color: white;
+  margin: 1rem auto;
+  box-shadow: 0px 0px 8px #888888;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  overflow: hidden;
+}
+
+input[type="number"] {
+  -webkit-appearance: none; /* Pour Chrome et Safari */
+  -moz-appearance: none; /* Pour Firefox */
+  appearance: none; /* Standard moderne */
+}
+
+/* Vous pouvez également appliquer des styles spécifiques pour désactiver l'apparence des flèches de l'input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]::-moz-inner-spin-button,
+input[type="number"]::-moz-outer-spin-button {
+  -moz-appearance: none;
+  margin: 0;
+}

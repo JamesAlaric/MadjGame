@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+#root,
 body {
   margin: 0;
   background-color: #161720;
@@ -11,17 +12,30 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
-#root,
 .game-container {
-  /*width: 100%;*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+
+
+.right-section {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  overflow-x: auto;
 }
 
 .error-message {
@@ -87,4 +101,38 @@ body {
 .game-over-image {
   width: 300px; /* ajustez ceci à la taille désirée */
   height: auto; /* pour maintenir le ratio d'aspect */
+}
+
+@media (max-width: 600px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .score-board,
+  .board-size-input,
+  .reset-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Ajoutez ces styles pour la mise en page sur les grands écrans (par exemple, les ordinateurs de bureau) */
+@media (min-width: 601px) {
+  .game-container {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 30px; /* Marge à gauche pour les grands écrans */
+  }
+
+  .score-board,
+  .board-size-input,
+  .reset-button {
+    width: auto;
+    text-align: left;
+  }
+
+  .board {
+    flex-grow: 1;
+  }
 }

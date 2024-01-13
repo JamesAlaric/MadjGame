@@ -4,6 +4,7 @@ import ResetButton from "./components/resetButton";
 import ScoreBoard from "./components/scoreBoard";
 import { Madj } from "./madj"; // Assurez-vous que le chemin d'import est correct
 import "./App.css";
+import Input from "./components/input";
 import goldTrophy from "../public/trophy.png";
 import DrawIcon from "../public/hired.png";
 
@@ -93,7 +94,14 @@ const App: React.FC = () => {
   return (
     <>
       <div className="game-container">
-        <ScoreBoard scores={{ xScore, oScore }} xPlaying={xPlaying} />
+        <div className="left-section">
+          <ScoreBoard scores={{ xScore, oScore }} xPlaying={xPlaying} />
+          <Input
+            value={size || ""}
+            onChange={(e) => handleSizeChange(parseInt(e.target.value, 10))}
+          />
+          <ResetButton resetBoard={resetGame} />
+        </div>
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {isModalVisible && (
           <div className="modal-overlay">
@@ -115,14 +123,9 @@ const App: React.FC = () => {
           </div>
         )}
 
-        <Board
-          size={size}
-          onSizeChange={handleSizeChange}
-          board={madj.board}
-          onBoxClick={handleBoxClick}
-        />
-
-        <ResetButton resetBoard={resetGame} />
+        <div className="right-section">
+          <Board size={size} board={madj.board} onBoxClick={handleBoxClick} />
+        </div>
       </div>
     </>
   );
